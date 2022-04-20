@@ -1,0 +1,101 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://tiles/snow/Background.tscn" type="PackedScene" id=2]
+[ext_resource path="res://tiles/snow/Ground.tscn" type="PackedScene" id=3]
+[ext_resource path="res://objects/teleportField/TeleportField.tscn" type="PackedScene" id=4]
+[ext_resource path="res://objects/platform/Platforms.tscn" type="PackedScene" id=5]
+[ext_resource path="res://objects/door/DoorLock.tscn" type="PackedScene" id=6]
+[ext_resource path="res://objects/spike/Spike.tscn" type="PackedScene" id=7]
+[ext_resource path="res://objects/door/Key.tscn" type="PackedScene" id=8]
+[ext_resource path="res://objects/respawnPoint/RespawnPoint.tscn" type="PackedScene" id=9]
+[ext_resource path="res://objects/fallingPlatform/FallingPlatform.tscn" type="PackedScene" id=10]
+[ext_resource path="res://objects/fish/AbilityFish.tscn" type="PackedScene" id=11]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 60, 0.5 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 8, 40 )
+
+[node name="TestMap" type="Node2D"]
+z_as_relative = false
+
+[node name="Ground" parent="." instance=ExtResource( 3 )]
+
+[node name="Background" parent="." instance=ExtResource( 2 )]
+
+[node name="Platforms" parent="." instance=ExtResource( 5 )]
+z_as_relative = false
+
+[node name="TeleportField" parent="." instance=ExtResource( 4 )]
+position = Vector2( 232, 192 )
+z_as_relative = false
+monitorable = false
+
+[node name="Target" parent="TeleportField" index="0"]
+position = Vector2( -224, -600 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TeleportField"]
+shape = SubResource( 1 )
+
+[node name="Door&Lock" parent="." instance=ExtResource( 6 )]
+position = Vector2( 464, -16 )
+z_as_relative = false
+
+[node name="Door" parent="Door&Lock" index="0"]
+position = Vector2( 16, -8 )
+
+[node name="Door" parent="Door&Lock/Door" index="0"]
+margin_left = -8.0
+margin_top = -40.0
+margin_bottom = 40.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door&Lock/Door" index="1"]
+shape = SubResource( 2 )
+
+[node name="Lock" parent="Door&Lock" index="1"]
+position = Vector2( -24, 24 )
+z_as_relative = false
+
+[node name="Key" parent="." instance=ExtResource( 8 )]
+position = Vector2( 208, -144 )
+z_as_relative = false
+
+[node name="Spike2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 256, -112 )
+z_as_relative = false
+
+[node name="Spike3" parent="." instance=ExtResource( 7 )]
+position = Vector2( 272, -112 )
+z_as_relative = false
+
+[node name="RespawnPoint" parent="." instance=ExtResource( 9 )]
+position = Vector2( 64, 32 )
+z_as_relative = false
+
+[node name="FallingPlatform" parent="." instance=ExtResource( 10 )]
+position = Vector2( 176, 72 )
+z_as_relative = false
+length = 7
+maxFallDelay = 1.0
+
+[node name="RespawnPoint2" parent="." instance=ExtResource( 9 )]
+position = Vector2( 344, 32 )
+z_as_relative = false
+
+[node name="ChargeAbilityFish" parent="." instance=ExtResource( 11 )]
+position = Vector2( 592, -40 )
+z_as_relative = false
+ability = 2
+
+[node name="ShootAbilityFish" parent="." instance=ExtResource( 11 )]
+position = Vector2( 352, -80 )
+z_as_relative = false
+ability = 1
+
+[node name="JumpAbilityFish" parent="." instance=ExtResource( 11 )]
+position = Vector2( 224, 32 )
+z_as_relative = false
+
+[editable path="TeleportField"]
+[editable path="Door&Lock"]

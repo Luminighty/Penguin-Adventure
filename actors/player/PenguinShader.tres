@@ -1,0 +1,15 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+
+uniform bool blinking = false;
+
+void fragment() {
+	vec4 prev = texture(TEXTURE, UV);
+	vec4 white = vec4(1.0, 1.0, 1.0, prev.a / 2.0);
+	COLOR = prev;
+	
+	if (blinking)
+		COLOR = white;
+}"

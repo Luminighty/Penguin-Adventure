@@ -1,0 +1,391 @@
+[gd_scene load_steps=38 format=2]
+
+[ext_resource path="res://actors/player/penguin.png" type="Texture" id=1]
+[ext_resource path="res://actors/player/Player.cs" type="Script" id=2]
+[ext_resource path="res://actors/player/Movement.cs" type="Script" id=3]
+[ext_resource path="res://actors/player/resources/HurtResource.gd" type="Script" id=4]
+[ext_resource path="res://actors/player/Shooting.cs" type="Script" id=5]
+[ext_resource path="res://actors/player/Health.cs" type="Script" id=6]
+[ext_resource path="res://actors/player/PenguinShader.tres" type="Shader" id=7]
+[ext_resource path="res://actors/player/BlinkAnimationPlayer.gd" type="Script" id=8]
+
+[sub_resource type="Resource" id=25]
+script = ExtResource( 4 )
+strength = Vector2( 200, -300 )
+weight = 0.5
+lifeTime = 0.2
+
+[sub_resource type="ShaderMaterial" id=29]
+shader = ExtResource( 7 )
+shader_param/blinking = false
+
+[sub_resource type="Animation" id=2]
+resource_name = "Fall"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 7 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Idle"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Sprite:scale:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 0.98, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1.02, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4, 0.5, 1 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Sprite:scale:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.02, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.98, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4, 0.5, 1 )
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "Jump"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "Move"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 3, 4, 5, 4 ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Sprite:scale:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Sprite:scale:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "Shoot"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 8 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.95, 1.05 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+animation = "Fall"
+
+[sub_resource type="AnimationNodeAnimation" id=12]
+animation = "Jump"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id=13]
+blend_point_0/node = SubResource( 11 )
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource( 12 )
+blend_point_1/pos = -0.01
+min_space = -0.1
+max_space = 0.1
+snap = 0.01
+
+[sub_resource type="AnimationNodeAnimation" id=14]
+animation = "Idle"
+
+[sub_resource type="AnimationNodeAnimation" id=15]
+animation = "Idle"
+
+[sub_resource type="AnimationNodeAnimation" id=16]
+animation = "Move"
+
+[sub_resource type="AnimationNodeAnimation" id=17]
+animation = "Move"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id=8]
+blend_point_0/node = SubResource( 14 )
+blend_point_0/pos = -0.1
+blend_point_1/node = SubResource( 15 )
+blend_point_1/pos = 0.1
+blend_point_2/node = SubResource( 16 )
+blend_point_2/pos = 0.9
+blend_point_3/node = SubResource( 17 )
+blend_point_3/pos = -0.9
+
+[sub_resource type="AnimationNodeAnimation" id=18]
+animation = "Shoot"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+advance_condition = "is_jumping"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+advance_condition = "is_walking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+switch_mode = 2
+auto_advance = true
+advance_condition = "is_jumping"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=22]
+switch_mode = 2
+auto_advance = true
+advance_condition = "is_walking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+
+[sub_resource type="AnimationNodeStateMachine" id=9]
+states/Jump/node = SubResource( 13 )
+states/Jump/position = Vector2( 583, 202 )
+states/Movement/node = SubResource( 8 )
+states/Movement/position = Vector2( 583, 408 )
+states/Shoot/node = SubResource( 18 )
+states/Shoot/position = Vector2( 272, 306 )
+transitions = [ "Movement", "Jump", SubResource( 19 ), "Jump", "Movement", SubResource( 20 ), "Shoot", "Jump", SubResource( 21 ), "Shoot", "Movement", SubResource( 22 ), "Movement", "Shoot", SubResource( 23 ), "Jump", "Shoot", SubResource( 24 ) ]
+start_node = "Movement"
+graph_offset = Vector2( 117, 175 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=10]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 5, 7 )
+
+[sub_resource type="Animation" id=30]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:material:shader_param/blinking")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=26]
+resource_name = "Start"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:material:shader_param/blinking")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=27]
+resource_name = "Stop"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:material:shader_param/blinking")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[node name="Player" type="KinematicBody2D"]
+z_index = 10
+z_as_relative = false
+collision_mask = 16
+script = ExtResource( 2 )
+hurtResource = SubResource( 25 )
+
+[node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 29 )
+texture = ExtResource( 1 )
+offset = Vector2( 0, -8 )
+hframes = 12
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Fall = SubResource( 2 )
+anims/Idle = SubResource( 3 )
+anims/Jump = SubResource( 4 )
+anims/Move = SubResource( 5 )
+anims/RESET = SubResource( 6 )
+anims/Shoot = SubResource( 7 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 9 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource( 10 )
+parameters/conditions/is_jumping = false
+parameters/conditions/is_walking = false
+parameters/Jump/blend_position = 0.0
+parameters/Movement/blend_position = -0.0407632
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -7 )
+shape = SubResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 4, 0 )
+current = true
+zoom = Vector2( 0.333, 0.333 )
+smoothing_speed = 10.0
+
+[node name="GroundCast2" type="RayCast2D" parent="."]
+position = Vector2( 5, 0 )
+enabled = true
+cast_to = Vector2( 0, 3 )
+collision_mask = 24
+collide_with_areas = true
+
+[node name="GroundCast" type="RayCast2D" parent="."]
+position = Vector2( -5, 0 )
+enabled = true
+cast_to = Vector2( 0, 3 )
+collision_mask = 24
+collide_with_areas = true
+
+[node name="Shooting" type="Position2D" parent="."]
+position = Vector2( 5, -9 )
+script = ExtResource( 5 )
+bulletVelocity = Vector2( 300, 0 )
+lifeTime = 2.0
+
+[node name="Movement" type="Node" parent="."]
+script = ExtResource( 3 )
+speed = 200
+accSpeed = 20
+brakeSpeed = 20
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource( 6 )
+maxHp = 4
+iFrameLength = 1.0
+
+[node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 30 )
+anims/Start = SubResource( 26 )
+anims/Stop = SubResource( 27 )
+script = ExtResource( 8 )
+
+[connection signal="AbilityGained" from="." to="Shooting" method="_onAbilityGained"]
+[connection signal="AbilityGained" from="." to="Movement" method="_onAbilityGained"]
+[connection signal="FacingChanged" from="." to="Shooting" method="_on_FacingChanged"]
+[connection signal="GroundChanged" from="." to="Movement" method="_onGroundChanged"]
+[connection signal="Shoot" from="Shooting" to="." method="_onPlayAnimation" binds= [ "Shoot" ]]
+[connection signal="InvincibilityChanged" from="Health" to="BlinkAnimationPlayer" method="_onInvincibilityChanged"]
